@@ -69,23 +69,28 @@ export const getStaticPaths = () => {
     fallback: true,
   }
 }
-export const getStaticProps = async ({ params }) => {
-  let post
+export async function getStaticProps({ params, preview }) {
+  let postFile
+  // is the slug for a file system post or cms post
   try {
-    const filePath = path.join(process.cwd(), 'posts', params.slug, '.mdx')
-    post = fs.readFileSync(filePath, 'utf-8')
+    const postPath = path.join(process.cwd(), 'posts', `${params.slug}.mdx`)
+    postFile = fs.readFileSync(postPath, 'utf-8')
   } catch {
-    const cmsPosts = postsFromCMS.published.map((p) => matter(p))
-    const match = cmsPosts.find((p) => p.data.slug === params.slug)
-    post = match.content
+    // check that cookie
+    const collection = preview ? postsFromCMS.draft : postsFromCMS.published
+    postFile = collection.find((p) => {
+      const { data } = matter(p)
+      return data.slug === params.slug
+    })
   }
-  const { data } = matter(post)
-  const mdxSource = await renderToString(post, { scope: data })
-  return {
-    props: {
-      source: mdxSource,
-      frontMatter: data,
-    },
+
+  if (!postFile) {
+    throw new Error('no post')
   }
+
+  const { content, data } = matter(postFile)
+  const mdxSource = await renderToString(content, { scope: data })
+
+  return { props: { source: mdxSource, frontMatter: data }, revalidate: 30 }
 }
 export default BlogPost

@@ -19,7 +19,7 @@ import { Icon, Pane, Text, TickIcon, Spinner, majorScale } from 'evergreen-ui'
 import { useThrottleCallback } from '@react-hook/throttle'
 
 const saveEditor = async (docId: string, data: any) => {
-  await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/doc/${docId}`, {
+  await fetch(`${process.env.NEXT_PUBLIC_API_HOST}api/doc/${docId}`, {
     method: 'PUT',
     body: JSON.stringify(data),
     headers: {

@@ -46,6 +46,7 @@ const Signin = () => {
         paddingX={majorScale(7)}
       >
         <Pane width="100%" textAlign="center">
+          <SocialButton type="google" onClick={() => signIn('google')} />
           <SocialButton type="github" onClick={() => signIn('github')} />
         </Pane>
       </Pane>

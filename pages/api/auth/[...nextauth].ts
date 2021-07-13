@@ -15,6 +15,10 @@ export default (req, res) =>
         clientId: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
       }),
+      Providers.Google({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      }),
     ],
     database: process.env.DATABASE_URL,
     pages: {

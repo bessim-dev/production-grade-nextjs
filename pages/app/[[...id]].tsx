@@ -21,7 +21,7 @@ const App: FC<{ folders?: any[]; activeFolder?: any; activeDoc?: any; activeDocs
   const [allFolders, setFolders] = useState(folders || [])
 
   const handleNewFolder = async (name: string) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}api/folder`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/folder`, {
       method: 'POST',
       body: JSON.stringify({ name }),
       headers: {
